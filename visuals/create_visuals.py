@@ -118,3 +118,65 @@ fig_body.update_layout(
 
 
 fig_body.write_html("unicycle_injuries_by_body_part_pie_chart.html")
+
+################## Chart 4: Injuries by Gender Pie Chart ###################
+
+sex_fmt = fmt[fmt["Format name"] == "SEX"]
+sex_fmt = sex_fmt[["Starting value for format", "Format value label"]].dropna()
+sex_fmt.columns = ["Code", "Label"]
+sex_fmt["Code"] = sex_fmt["Code"].astype(int)
+sex_fmt["Label"] = sex_fmt["Label"].str.replace(r"^\d+\s*-\s*", "", regex=True).str.title()
+
+code_to_label = dict(zip(sex_fmt["Code"], sex_fmt["Label"]))
+df["Sex_Label"] = df["Sex"].map(code_to_label)
+
+sex_counts = df["Sex_Label"].value_counts().reset_index()
+sex_counts.columns = ["Sex", "Injuries"]
+
+fig = px.pie(
+    sex_counts,
+    names="Sex",
+    values="Injuries",
+    title="Unicycle Injuries by Sex",
+    hole=0.4
+)
+fig.update_traces(textposition="inside", textinfo="percent+label")
+fig.update_layout(
+    font=dict(family="Segoe UI, sans-serif", size=14),
+    margin=dict(l=40, r=40, t=60, b=40),
+)
+
+fig.write_html("injuries_by_sex.html")
+
+
+################## Chart 5: Injuries by Race Pie Chart ###################
+# Extract and clean race labels
+race_fmt = fmt[fmt["Format name"] == "RACE"]
+race_fmt = race_fmt[["Starting value for format", "Format value label"]].dropna()
+race_fmt.columns = ["Code", "Label"]
+race_fmt["Code"] = race_fmt["Code"].astype(int)
+race_fmt["Label"] = race_fmt["Label"].str.replace(r"^\d+\s*-\s*", "", regex=True).str.title()
+
+# Map labels
+code_to_label = dict(zip(race_fmt["Code"], race_fmt["Label"]))
+df["Race_Label"] = df["Race"].map(code_to_label)
+df = df[df["Race_Label"]!="N.S."]
+# Count injuries by race
+race_counts = df["Race_Label"].value_counts().reset_index()
+race_counts.columns = ["Race", "Injuries"]
+
+# Create donut chart
+fig = px.pie(
+    race_counts,
+    names="Race",
+    values="Injuries",
+    title="Unicycle Injuries by Race",
+    hole=0.4
+)
+fig.update_traces(textposition="inside", textinfo="percent+label")
+fig.update_layout(
+    font=dict(family="Segoe UI, sans-serif", size=14),
+    margin=dict(l=40, r=40, t=60, b=40),
+)
+
+fig.write_html("injuries_by_race.html")
