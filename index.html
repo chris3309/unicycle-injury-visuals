@@ -15,12 +15,18 @@
       text-align: center;
       margin-bottom: 2rem;
     }
+    .chart-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
     .chart-container {
       background: white;
       border-radius: 12px;
       padding: 1rem;
       margin: 2rem auto;
-      width: 100%;
+      width: 40%;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
     }
     iframe {
@@ -44,24 +50,46 @@
             <p>This dataset contains informat  sion on unicycle-related injuries reported to the National Electronic Injury Surveillance System (NEISS) from 2005 to 2024.</p>
         </section>
     </main>
+
+    <!------------- INJURY OVERVIEW ------------->
+    <h2>Injury Overview</h2>
     <div class="chart-container">
-        <h2>Injuries by Sex</h2>
-        <iframe src="visuals/injuries_by_sex.html"></iframe>
-    </div>
-    <div class="chart-container">
-        <h2>Injuries by Age Group</h2>
-        <iframe src="visuals/unicycle_injuries_by_age_group_bar_chart.html"></iframe>
-    </div>
-    <div class="chart-container">
-        <h2>Injuries by Year</h2>
-        <iframe src="visuals/injuries_by_race.html"></iframe>
-    </div>
-    <div class="chart-container">
-        <h2>Injuries by Year</h2>
+        <h2>Total Unicycle Injuries by Year</h2>
         <iframe src="visuals/number_of_injuries_over_time_line_chart.html"></iframe>
     </div>
-    <div class="chart-container">
-        <h2>Injuries by Body Part</h2>
-        <iframe src="visuals/unicycle_injuries_by_body_part_pie_chart.html"></iframe>
+
+    <!------------- DEMOGRAPHICS ------------->
+    <h2>Demographics</h2>
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Injuries by Sex</h2>
+            <iframe src="visuals/injuries_by_sex.html"></iframe>
+        </div>
+        <div class="chart-container">
+            <h2>Injuries by Age Group</h2>
+            <iframe src="visuals/unicycle_injuries_by_age_group_bar_chart.html"></iframe>
+        </div>
     </div>
+    <div class="chart-container">
+        <h2>Injuries by Race</h2>
+        <iframe src="visuals/injuries_by_race.html"></iframe>
+    </div>
+    
+    <!------------- INJURY DETAILS ------------->
+    <h2>Injury Details</h2>
+    <div class="chart-row">
+        <div class="chart-container">
+            <h2>Injuries by Body Part</h2>
+            <iframe src="visuals/unicycle_injuries_by_body_part_pie_chart.html"></iframe>
+        </div>
+        <div class="chart-container">
+            <h2>Injuries by Diagnosis</h2>
+            <iframe src="visuals/injuries_by_diagnosis.html"></iframe>
+        </div>
+    </div>
+    <div class="chart-container">
+        <h2>Injuries by Disposition</h2>
+        <iframe src="visuals/injuries_by_disposition.html"></iframe>
+    </div>
+
 </body>

@@ -180,3 +180,68 @@ fig.update_layout(
 )
 
 fig.write_html("injuries_by_race.html")
+
+
+
+################## Chart 6: Injuries by Diagnosis ###################
+#Extract and clean diagnosis labels
+diag_fmt = fmt[fmt["Format name"] == "DIAG"]
+diag_fmt = diag_fmt[["Starting value for format", "Format value label"]].dropna()
+diag_fmt.columns = ["Code", "Label"]
+diag_fmt["Code"] = diag_fmt["Code"].astype(int)
+diag_fmt["Label"] = diag_fmt["Label"].str.replace(r"^\d+\s*-\s*", "", regex=True).str.title()
+
+#Map labels
+diagnosis_map = dict(zip(diag_fmt["Code"], diag_fmt["Label"]))
+df["Diagnosis_Label"] = df["Diagnosis"].map(diagnosis_map)
+
+#Count top diagnoses
+diagnosis_counts = df["Diagnosis_Label"].value_counts().reset_index()
+diagnosis_counts.columns = ["Diagnosis", "Injuries"]
+
+#Plot diagnosis pie chart
+fig_diag = px.pie(
+    diagnosis_counts,
+    names="Diagnosis",
+    values="Injuries",
+    title="Unicycle Injuries by Diagnosis",
+    hole=0.4
+)
+fig_diag.update_traces(textposition="inside", textinfo="percent+label")
+fig_diag.update_layout(
+    font=dict(family="Segoe UI, sans-serif", size=14),
+    margin=dict(l=40, r=40, t=60, b=40),
+)
+fig_diag.write_html("injuries_by_diagnosis.html")
+
+################### Chart 7: Injuries by Disposition ###################
+
+#Extract and clean disposition labels
+disp_fmt = fmt[fmt["Format name"] == "DISP"]
+disp_fmt = disp_fmt[["Starting value for format", "Format value label"]].dropna()
+disp_fmt.columns = ["Code", "Label"]
+disp_fmt["Code"] = disp_fmt["Code"].astype(int)
+disp_fmt["Label"] = disp_fmt["Label"].str.replace(r"^\d+\s*-\s*", "", regex=True).str.title()
+
+#Map labels
+disposition_map = dict(zip(disp_fmt["Code"], disp_fmt["Label"]))
+df["Disposition_Label"] = df["Disposition"].map(disposition_map)
+
+#Count dispositions
+disposition_counts = df["Disposition_Label"].value_counts().reset_index()
+disposition_counts.columns = ["Disposition", "Injuries"]
+
+#Plot disposition pie chart
+fig_disp = px.pie(
+    disposition_counts,
+    names="Disposition",
+    values="Injuries",
+    title="Unicycle Injuries by Disposition",
+    hole=0.4
+)
+fig_disp.update_traces(textposition="inside", textinfo="percent+label")
+fig_disp.update_layout(
+    font=dict(family="Segoe UI, sans-serif", size=14),
+    margin=dict(l=40, r=40, t=60, b=40),
+)
+fig_disp.write_html("injuries_by_disposition.html")
